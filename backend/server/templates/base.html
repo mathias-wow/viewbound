@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Viewbound API Server" />
+    <link rel="icon" href="/static/favicon.png" />
+    <meta name="author" content="Sean Morley" />
+    <title>Viewbound API Server</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background-color: #f9f9fb;
+        color: #222;
+        font-family: "Segoe UI", sans-serif;
+      }
+      .navbar {
+        background-color: #2c3e50;
+      }
+      .navbar-brand,
+      .nav-link {
+        color: #ecf0f1 !important;
+      }
+      .hero {
+        padding: 4rem 1rem;
+        background: linear-gradient(135deg, #2980b9, #6dd5fa);
+        color: white;
+        text-align: center;
+        border-radius: 0 0 1rem 1rem;
+      }
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+      .hero p {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+      }
+      .api-response {
+        margin-top: 1rem;
+        font-family: monospace;
+        background-color: #eef2f7;
+        padding: 1rem;
+        border-radius: 0.5rem;
+      }
+      footer {
+        text-align: center;
+        padding: 2rem 0;
+        font-size: 0.9rem;
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="/">Viewbound API</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="http://viewbound.app"
+                target="_blank"
+              >
+                Documentation
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="https://github.com/seanmorley15/Viewbound"
+                target="_blank"
+              >
+                Source Code
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/docs">API Docs</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+      <div class="container">
+        <h1><i class="bi bi-map"></i> Viewbound API</h1>
+        <p>
+          The backend powering your travels — flexible, powerful, and open
+          source.
+        </p>
+        <a href="/docs" class="btn btn-light btn-lg shadow-sm"
+          ><i class="bi bi-book"></i> Explore API Docs</a
+        >
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+      {% block content %}
+      <div class="text-center">
+        <h2>Try a Sample Request</h2>
+        <p>Use the form below to test an API POST request.</p>
+        <form
+          class="ajax-post d-flex flex-column align-items-center"
+          action="/api/test"
+          method="post"
+          style="max-width: 500px; margin: auto"
+        >
+          <input
+            type="text"
+            name="example"
+            placeholder="Enter example data"
+            class="form-control mb-3"
+            required
+          />
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-send"></i> Send Request
+          </button>
+        </form>
+        <div class="api-response"></div>
+      </div>
+      {% endblock %}
+    </div>
+
+    <footer class="text-center text-muted py-4">
+      Open source with ❤️ by
+      <a href="https://seanmorley.com" target="_blank">Sean Morley</a> • View on
+      <a href="https://github.com/seanmorley15/Viewbound" target="_blank"
+        >GitHub</a
+      >
+      •
+      <a href="https://viewbound.app" target="_blank">viewbound.app</a>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <!-- jQuery (optional, used here for legacy script) -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      const error_response = (data) => {
+        $(".api-response").html(
+          `<strong>API Response:</strong> ${data.status} ${data.statusText}<br/><strong>Content:</strong> ${data.responseText}`
+        );
+      };
+      const susccess_response = (data) => {
+        $(".api-response").html(
+          `<strong>API Response:</strong> OK<br/><strong>Content:</strong> ${JSON.stringify(
+            data,
+            null,
+            2
+          )}`
+        );
+      };
+
+      $(document).ready(() => {
+        $("form.ajax-post button[type=submit]").click(function () {
+          const form = $("form.ajax-post");
+          $.post(form.attr("action"), form.serialize())
+            .fail(error_response)
+            .done(susccess_response);
+          return false;
+        });
+      });
+    </script>
+
+    {% block script %}{% endblock %}
+  </body>
+</html>

@@ -1,0 +1,16 @@
+{
+	"short_name": "Viewbound",
+	"name": "Viewbound",
+	"start_url": "/dashboard",
+	"icons": [
+		{
+			"src": "viewbound.svg",
+			"type": "image/svg+xml",
+			"sizes": "any"
+		}
+	],
+	"background_color": "#2a323c",
+	"display": "standalone",
+	"scope": "/",
+	"description": "Self-hostable travel tracker and trip planner."
+}
