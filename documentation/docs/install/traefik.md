@@ -1,7 +1,0 @@
-# Installation with Traefik
-
-Traefik is a modern HTTP reverse proxy and load balancer that makes deploying microservices easy. It is designed to be simple to use and configure, and it integrates well with Docker.
-
-Viewbound has a built-in Traefik configuration that makes it easy to deploy and manage your Viewbound instance.
-
-The most recent version of the Traefik `docker-compose.yml` file can be found in the [Viewbound GitHub repository](https://github.com/seanmorley15/Viewbound/blob/main/docker-compose-traefik.yaml).

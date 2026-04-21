@@ -1,2 +1,0 @@
-@import url('https://cdn.tailwindcss.com');
-@plugin "daisyui";
