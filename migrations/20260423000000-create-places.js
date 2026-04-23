@@ -7,6 +7,8 @@ module.exports = {
         type: Sequelize.UUID,
         primaryKey: true,
         allowNull: false,
+        // UUID is generated at the application layer (UUIDV4) for SQLite/PostgreSQL portability.
+        // On PostgreSQL, a DB-level default can be added via: DEFAULT gen_random_uuid()
       },
       name: {
         type: Sequelize.STRING,
@@ -29,11 +31,11 @@ module.exports = {
         allowNull: false,
       },
       latitude: {
-        type: Sequelize.DECIMAL(9, 6),
+        type: Sequelize.DECIMAL(8, 6),
         allowNull: false,
       },
       longitude: {
-        type: Sequelize.DECIMAL(10, 6),
+        type: Sequelize.DECIMAL(9, 6),
         allowNull: false,
       },
       last_verified_at: {

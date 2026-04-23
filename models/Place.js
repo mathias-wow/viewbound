@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       latitude: {
-        type: DataTypes.DECIMAL(9, 6),
+        type: DataTypes.DECIMAL(8, 6),
         allowNull: false,
         validate: {
           notNull: { msg: 'latitude is required' },
@@ -83,7 +83,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       longitude: {
-        type: DataTypes.DECIMAL(10, 6),
+        type: DataTypes.DECIMAL(9, 6),
         allowNull: false,
         validate: {
           notNull: { msg: 'longitude is required' },
