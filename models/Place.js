@@ -63,12 +63,32 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       // Every place must be attributable to a human — no anonymous listings.
+      // Stored as a display string until the users/guides model exists; a FK migration
+      // will be added when that table is created.
       attributed_to: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notNull: { msg: 'attributed_to is required — every place must be attributable to a human' },
           notEmpty: { msg: 'attributed_to cannot be empty' },
+        },
+      },
+      latitude: {
+        type: DataTypes.DECIMAL(9, 6),
+        allowNull: false,
+        validate: {
+          notNull: { msg: 'latitude is required' },
+          min: { args: [-90], msg: 'latitude must be >= -90' },
+          max: { args: [90], msg: 'latitude must be <= 90' },
+        },
+      },
+      longitude: {
+        type: DataTypes.DECIMAL(10, 6),
+        allowNull: false,
+        validate: {
+          notNull: { msg: 'longitude is required' },
+          min: { args: [-180], msg: 'longitude must be >= -180' },
+          max: { args: [180], msg: 'longitude must be <= 180' },
         },
       },
       // Supports the 18-month verification rule: places are never published unverified.
@@ -80,6 +100,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM('draft', 'review', 'published'),
         defaultValue: 'draft',
         allowNull: false,
+        validate: {
+          isIn: {
+            args: [['draft', 'review', 'published']],
+            msg: 'status must be one of: draft, review, published',
+          },
+        },
       },
     },
     {

@@ -28,6 +28,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      latitude: {
+        type: Sequelize.DECIMAL(9, 6),
+        allowNull: false,
+      },
+      longitude: {
+        type: Sequelize.DECIMAL(10, 6),
+        allowNull: false,
+      },
       last_verified_at: {
         type: Sequelize.DATE,
         allowNull: true,

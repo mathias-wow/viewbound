@@ -10,6 +10,8 @@ const VALID = {
     'https://cdn.viewbound.com/assets/yoyogi-2.jpg',
   ],
   attributed_to: 'Kenji Watanabe, Local Guide',
+  latitude: 35.671234,
+  longitude: 139.695823,
   last_verified_at: new Date('2026-01-15'),
 };
 
@@ -88,5 +90,33 @@ describe('Place model — validation', () => {
 
   test('rejects empty attributed_to', async () => {
     await expect(Place.create({ ...VALID, attributed_to: '' })).rejects.toThrow();
+  });
+
+  test('rejects null name', async () => {
+    await expect(Place.create({ ...VALID, name: null })).rejects.toThrow();
+  });
+
+  test('rejects empty name', async () => {
+    await expect(Place.create({ ...VALID, name: '' })).rejects.toThrow();
+  });
+
+  test('rejects invalid status enum value', async () => {
+    await expect(Place.create({ ...VALID, status: 'archived' })).rejects.toThrow();
+  });
+
+  test('rejects null latitude', async () => {
+    await expect(Place.create({ ...VALID, latitude: null })).rejects.toThrow();
+  });
+
+  test('rejects out-of-range latitude', async () => {
+    await expect(Place.create({ ...VALID, latitude: 91 })).rejects.toThrow();
+  });
+
+  test('rejects null longitude', async () => {
+    await expect(Place.create({ ...VALID, longitude: null })).rejects.toThrow();
+  });
+
+  test('rejects out-of-range longitude', async () => {
+    await expect(Place.create({ ...VALID, longitude: 181 })).rejects.toThrow();
   });
 });
