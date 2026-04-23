@@ -98,6 +98,13 @@ module.exports = (sequelize) => {
       modelName: 'Place',
       tableName: 'places',
       underscored: true,
+      validate: {
+        publishedPlaceMustHaveCoordinates() {
+          if (this.status === 'published' && (this.latitude == null || this.longitude == null)) {
+            throw new Error('A published place must have latitude and longitude coordinates');
+          }
+        },
+      },
     }
   );
 

@@ -109,10 +109,16 @@ describe('Place model — validation', () => {
     await expect(Place.create({ ...VALID_PLACE, longitude: -181 })).rejects.toThrow();
   });
 
-  test('allows null latitude and longitude', async () => {
-    const place = await Place.create({ ...VALID_PLACE, latitude: null, longitude: null });
+  test('allows null latitude and longitude for draft status', async () => {
+    const place = await Place.create({ ...VALID_PLACE, latitude: null, longitude: null, status: 'draft' });
     expect(place.latitude).toBeNull();
     expect(place.longitude).toBeNull();
+  });
+
+  test('rejects published place with null coordinates', async () => {
+    await expect(
+      Place.create({ ...VALID_PLACE, status: 'published', latitude: null, longitude: null })
+    ).rejects.toThrow(/published place must have latitude and longitude/);
   });
 
   test('rejects invalid status value', async () => {
