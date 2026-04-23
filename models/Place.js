@@ -52,7 +52,8 @@ module.exports = (sequelize) => {
           },
         },
       },
-      // Every place must be attributable to a human — no anonymous listings
+      // Every place must be attributable to a human — no anonymous listings.
+      // String for now; migrate to a FK on the Guide/User table once that model exists.
       attributed_to: {
         type: DataTypes.STRING,
         allowNull: false,

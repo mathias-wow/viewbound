@@ -88,6 +88,12 @@ describe('Place model — validation', () => {
     ).rejects.toThrow();
   });
 
+  test('rejects gallery_assets that is not an array', async () => {
+    await expect(
+      Place.create({ ...VALID_PLACE, gallery_assets: 'https://cdn.viewbound.com/img.jpg' })
+    ).rejects.toThrow();
+  });
+
   test('rejects missing attributed_to', async () => {
     const { attributed_to, ...data } = VALID_PLACE;
     await expect(Place.create(data)).rejects.toThrow();
