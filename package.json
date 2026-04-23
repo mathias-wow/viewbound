@@ -1,0 +1,22 @@
+{
+  "name": "viewbound",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "jest --runInBand",
+    "migrate": "sequelize db:migrate",
+    "migrate:undo": "sequelize db:migrate:undo"
+  },
+  "dependencies": {
+    "sequelize": "^6.37.3",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "sequelize-cli": "^6.6.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/tests/**/*.test.js"]
+  }
+}
