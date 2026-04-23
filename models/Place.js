@@ -53,11 +53,27 @@ module.exports = (sequelize) => {
         },
       },
       // Every place must be attributable to a human — no anonymous listings
-      author: {
+      attributed_to: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: { msg: 'author cannot be empty — every place must have a human attribution' },
+          notEmpty: { msg: 'attributed_to cannot be empty — every place must have a human attribution' },
+        },
+      },
+      latitude: {
+        type: DataTypes.DECIMAL(8, 6),
+        allowNull: true,
+        validate: {
+          min: { args: [-90], msg: 'latitude must be >= -90' },
+          max: { args: [90], msg: 'latitude must be <= 90' },
+        },
+      },
+      longitude: {
+        type: DataTypes.DECIMAL(9, 6),
+        allowNull: true,
+        validate: {
+          min: { args: [-180], msg: 'longitude must be >= -180' },
+          max: { args: [180], msg: 'longitude must be <= 180' },
         },
       },
       status: {

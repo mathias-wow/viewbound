@@ -27,9 +27,17 @@ module.exports = {
         type: Sequelize.JSON,
         allowNull: false,
       },
-      author: {
+      attributed_to: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      latitude: {
+        type: Sequelize.DECIMAL(8, 6),
+        allowNull: true,
+      },
+      longitude: {
+        type: Sequelize.DECIMAL(9, 6),
+        allowNull: true,
       },
       // draft | review | published
       status: {

@@ -25,7 +25,9 @@ const VALID_PLACE = {
     'https://cdn.viewbound.com/places/kyoto-palace/gallery-1.jpg',
     'https://cdn.viewbound.com/places/kyoto-palace/gallery-2.jpg',
   ],
-  author: 'Yuki Tanaka',
+  attributed_to: 'Yuki Tanaka',
+  latitude: 35.012345,
+  longitude: 135.768012,
 };
 
 describe('Place model — happy path', () => {
@@ -37,7 +39,7 @@ describe('Place model — happy path', () => {
     expect(place.editorial_narrative).toBe(VALID_PLACE.editorial_narrative);
     expect(place.hero_image_high_res).toBe(VALID_PLACE.hero_image_high_res);
     expect(place.gallery_assets).toEqual(VALID_PLACE.gallery_assets);
-    expect(place.author).toBe(VALID_PLACE.author);
+    expect(place.attributed_to).toBe(VALID_PLACE.attributed_to);
     expect(place.status).toBe('draft');
     expect(place.createdAt).toBeDefined();
 
@@ -86,9 +88,31 @@ describe('Place model — validation', () => {
     ).rejects.toThrow();
   });
 
-  test('rejects missing author', async () => {
-    const { author, ...data } = VALID_PLACE;
+  test('rejects missing attributed_to', async () => {
+    const { attributed_to, ...data } = VALID_PLACE;
     await expect(Place.create(data)).rejects.toThrow();
+  });
+
+  test('stores and retrieves latitude and longitude', async () => {
+    const place = await Place.create(VALID_PLACE);
+    expect(parseFloat(place.latitude)).toBeCloseTo(35.012345, 4);
+    expect(parseFloat(place.longitude)).toBeCloseTo(135.768012, 4);
+  });
+
+  test('rejects latitude out of range', async () => {
+    await expect(Place.create({ ...VALID_PLACE, latitude: 91 })).rejects.toThrow();
+    await expect(Place.create({ ...VALID_PLACE, latitude: -91 })).rejects.toThrow();
+  });
+
+  test('rejects longitude out of range', async () => {
+    await expect(Place.create({ ...VALID_PLACE, longitude: 181 })).rejects.toThrow();
+    await expect(Place.create({ ...VALID_PLACE, longitude: -181 })).rejects.toThrow();
+  });
+
+  test('allows null latitude and longitude', async () => {
+    const place = await Place.create({ ...VALID_PLACE, latitude: null, longitude: null });
+    expect(place.latitude).toBeNull();
+    expect(place.longitude).toBeNull();
   });
 
   test('rejects invalid status value', async () => {
